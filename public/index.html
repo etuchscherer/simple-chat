@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatty</title>
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+
+    <script src="/jquery/jquery.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Our chat room</h1>
+      <form action=">
+        <label for="username">Please identify yourself:</label>
+        <span class="md-col-6">
+        <input type="text" class="sender form-control md-col-6" placeholder="enter your name">
+        </span>
+      </form>
+<br>
+<br>
+<br>
+<br>
+
+      <div id="input-message">
+        <span class="loading">loading...</span>
+      </div>
+
+      <div id="messages">
+        <ul class="list-unstyled">
+
+        </ul>
+      </div>
+    </div>
+
+
+      <script src="/underscore/underscore.js"></script>
+      <script src="/backbone/backbone.js"></script>
+      <script src="/assets/js/application.js"></script>
+      <script src="/assets/js/socket.io.js"></script>
+  </body>
+</html>

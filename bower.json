@@ -1,0 +1,23 @@
+{
+  "name": "appkit",
+  "version": "0.0.0",
+  "authors": [
+    "Eric Tuchscherer <eric@tuchscherer.me>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "ember": "~1.4.0",
+    "bootstrap": "~3.1.1",
+    "socket.io": "~0.9.15",
+    "requirejs": "~2.1.10"
+  }
+}
