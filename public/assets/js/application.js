@@ -4,14 +4,22 @@ var App = {
   Collections: {},
   vent: {},
   vars: {
-    identified: false
+    identified: false,
+    user: {},
+    colors: [
+      'orange',
+      'green',
+      'blue',
+      'pink',
+      'yellow',
+    ]
   }
 };
 
 _.extend(App.vent, Backbone.Events);
 
 App.vent.on('post-message', function(msg, sender) {
-  postMessage(sender + ': ' + msg, sender);
+  postMessage(sender + ' said :  ' + msg, sender);
 });
 
 App.vent.on('submitted-id', function() {
@@ -107,19 +115,23 @@ App.Views.MessageHeader = Backbone.View.extend({
 
 App.Views.Message = Backbone.View.extend({
   tagName: 'li',
-  render: function() {
+  className: 'message alert',
+  render: function(colorClass) {
     this.$el.text(this.model.get('text'));
-    this.$el.css('background-color', '#'+Math.floor(Math.random()*16777215).toString(16));
+    this.$el.addClass(colorClass);
     return this;
   }
 });
 
 function postMessage(msg, sender) {
-  App.Socket.emit('posted-message', { msg: msg, sender: sender });
+  var color = App.vars.user.color;
+  App.Socket.emit('posted-message', { msg: msg, sender: sender, color: color });
 }
 
 function showIdInput() {
   App.vars.idInput = new App.Views.Identification();
+  App.vars.user.name = 'username';
+  App.vars.user.color = getRandomArrayElement(App.vars.colors);
   $('span.id').append(App.vars.idInput.render().el);
 }
 
@@ -128,19 +140,19 @@ function showIdName() {
   $('h1').replaceWith(App.vars.idComponent.render().el);
 }
 
-function showMessageBox() {
+function showMessageBox(color) {
   App.vars.messageHeader = new App.Views.MessageHeader();
   var messages = new App.Collections.Messages();
   var input = new App.Views.Input({ collection: messages });
   $('#input-message').append(App.vars.messageHeader.render().el);
-  $('#input-message').append(input.render().el);
+  $('#input-message').append(input.render(color).el);
 }
 
 function showIncomingMessage(args) {
   console.log(args);
   var message = new App.Models.Message({ text: args.msg });
   var view = new App.Views.Message({ model: message });
-  $('#messages ul').prepend(view.render().el);
+  $('#messages ul').prepend(view.render(args.color).el);
 }
 
 $(document).ready(function() {

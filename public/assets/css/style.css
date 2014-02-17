@@ -1,0 +1,23 @@
+li.message {
+  box-shadow: -1px 2px 8px -2px;
+}
+
+li.message.orange {
+  background-color: #ff9900;
+}
+
+li.message.green {
+  background-color: #33ff33;
+}
+
+li.message.blue {
+  background-color: #33ffff;
+}
+
+li.message.pink {
+  background-color: #ffccff;
+}
+
+li.message.yellow {
+  background-color: #ffff33;
+}
