@@ -24,11 +24,10 @@ App.vent.on('post-message', function(msg, sender) {
 
 App.vent.on('submitted-id', function() {
   showIdName();
-  showMessageBox();
+  showSaySomethingWidget();
 });
 
 App.vent.on('incoming-message', function(args) {
-  console.log('vent just processed an incoming message', args);
   showIncomingMessage(args);
 });
 
@@ -45,7 +44,7 @@ App.Collections.Messages = Backbone.Collection.extend({
 
 App.Views.Input = Backbone.View.extend({
   tagName: 'input',
-  className: 'form-control',
+  className: 'form-control say-something',
   placeholder: 'type a message, then hit enter',
   events: {
     keypress: 'trySubmit'
@@ -133,6 +132,7 @@ function showIdInput() {
   App.vars.user.name = 'username';
   App.vars.user.color = getRandomArrayElement(App.vars.colors);
   $('span.id').append(App.vars.idInput.render().el);
+  $('input.sender').focus();
 }
 
 function showIdName() {
@@ -140,12 +140,13 @@ function showIdName() {
   $('h1').replaceWith(App.vars.idComponent.render().el);
 }
 
-function showMessageBox(color) {
+function showSaySomethingWidget(color) {
   App.vars.messageHeader = new App.Views.MessageHeader();
   var messages = new App.Collections.Messages();
   var input = new App.Views.Input({ collection: messages });
-  $('#input-message').append(App.vars.messageHeader.render().el);
-  $('#input-message').append(input.render(color).el);
+  $('#input-message').append(App.vars.messageHeader.render().el)
+    .append(input.render(color).el);
+  $('input.say-something').select()
 }
 
 function showIncomingMessage(args) {
