@@ -15,12 +15,9 @@ app.use(express.static(__dirname + '/app/bower_components'));
 app.use(express.static(__dirname + '/node_modules/socket.io'));
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('foo', function (msg) {
-    console.log(msg);
-  });
 
-  socket.on('message-post', function(args) {
-    console.log(args);
-  })
+  socket.on('posted-message', function(args) {
+    io.sockets.emit('server-message', args);
+    console.log('a message was just posted');
+  });
 });
