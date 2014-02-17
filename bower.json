@@ -15,9 +15,9 @@
     "tests"
   ],
   "devDependencies": {
-    "ember": "~1.4.0",
     "bootstrap": "~3.1.1",
     "socket.io": "~0.9.15",
-    "requirejs": "~2.1.10"
+    "backbone": "~1.1.1",
+    "jquery": "~2.1.0"
   }
 }
