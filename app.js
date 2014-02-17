@@ -16,6 +16,14 @@ app.use(express.static(__dirname + '/node_modules/socket.io'));
 
 io.sockets.on('connection', function (socket) {
 
+  socket.on('user-joined', function(args) {
+    console.log('user just joined');
+    console.log(args);
+    socket.broadcast.emit('notification', {
+      message: args.name + ' just connected'
+    });
+  });
+
   socket.on('posted-message', function(args) {
     io.sockets.emit('server-message', args);
     console.log('a message was just posted');

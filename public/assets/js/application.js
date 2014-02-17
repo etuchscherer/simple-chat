@@ -24,11 +24,16 @@ App.vent.on('post-message', function(msg, sender) {
 
 App.vent.on('submitted-id', function() {
   showIdName();
+  App.Socket.emit('user-joined', { name: App.vars.identified });
   showSaySomethingWidget();
 });
 
 App.vent.on('incoming-message', function(args) {
   showIncomingMessage(args);
+});
+
+App.vent.on('notification', function(args) {
+  App.vars.notification.model.set('message', args.message);
 });
 
 App.Models.Message = Backbone.Model.extend({
@@ -67,6 +72,22 @@ App.Views.Input = Backbone.View.extend({
   },
   render: function() {
     this.$el.attr('placeholder', this.placeholder);
+    return this;
+  }
+});
+
+App.Models.Nofication = Backbone.Model.extend({});
+
+App.Views.Nofication = Backbone.View.extend({
+  initialize: function() {
+    this.model.on('change:message', function() {
+      this.$el.text(this.model.get('message')).show();
+      this.$el.fadeOut(2000);
+    }, this);
+  },
+  tagName: 'p',
+  className: 'notification',
+  render: function() {
     return this;
   }
 });
@@ -150,7 +171,6 @@ function showSaySomethingWidget(color) {
 }
 
 function showIncomingMessage(args) {
-  console.log(args);
   var message = new App.Models.Message({ text: args.msg });
   var view = new App.Views.Message({ model: message });
   $('#messages ul').prepend(view.render(args.color).el);
@@ -162,7 +182,16 @@ $(document).ready(function() {
   App.Socket.on('server-message', function(args) {
     App.vent.trigger('incoming-message', args);
   });
+
+  App.Socket.on('notification', function(args) {
+    App.vent.trigger('notification', args);
+  });
   $('span.loading').remove();
 
+  App.vars.notification = new App.Views.Nofication({
+    model: new App.Models.Nofication()
+  });
+
+  $('span.notification').append(App.vars.notification.render().el);
   showIdInput();
 });
